@@ -67,7 +67,7 @@ deploy_EC2:
     - ssh-keyscan -H "$IP" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh $EC2_USER@$IP "cd /home/ec2-user/3-tier-docker-application && 
+    - ssh  ec2-user@$IP "cd /home/ec2-user/3-tier-docker-application && 
         export IMAGE_TAG=$CI_PIPELINE_IID && 
         docker compose pull && 
         docker compose up -d"
