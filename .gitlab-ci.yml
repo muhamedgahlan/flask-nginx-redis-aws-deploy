@@ -6,7 +6,6 @@ stages:
 variables:
   DOCKER_USERNAME: "DOCKER_USERNAME"
   DOCKER_PASSWORD: "DOCKER_PASSWORD"
-  EC2_USER: "user"
   
  
  
@@ -48,8 +47,10 @@ push_images:
     - docker load -i nginx-image.tar
     - docker load -i flask-image.tar
     - echo "Pushing images to Docker Hub..."
-    - docker push "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
-    - docker push "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+    - docker tag "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID "$DOCKER_USERNAME"/nginx:latest 
+    - docker tag "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID "$DOCKER_USERNAME"/flask:latest
+    - docker push "$DOCKER_USERNAME"/nginx:latest
+    - docker push "$DOCKER_USERNAME"/flask:latest
 
 
     
