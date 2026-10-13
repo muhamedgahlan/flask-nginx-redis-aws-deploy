@@ -39,10 +39,15 @@ build_images:
 push_images:
   stage: push
   image: docker:cli
+  services:
+    - docker:dind
+  before_script:
+    - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
   script:
-    - echo "Pushing images to Docker Hub..."
+    - echo "loading images..."
     - docker load -i nginx-image.tar
     - docker load -i flask-image.tar
+    - echo "Pushing images to Docker Hub..."
     - docker push "$DOCKER_USERNAME":$CI_PIPELINE_IID
     - docker push "$DOCKER_USERNAME":$CI_PIPELINE_IID
 
