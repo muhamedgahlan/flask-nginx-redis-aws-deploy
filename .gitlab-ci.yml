@@ -6,6 +6,9 @@ stages:
 variables:
   DOCKER_USERNAME: "DOCKER_USERNAME"
   DOCKER_PASSWORD: "DOCKER_PASSWORD"
+  #IP
+  #ec2-user
+  #my_key
   
  
  

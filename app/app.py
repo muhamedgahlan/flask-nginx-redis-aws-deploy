@@ -15,7 +15,7 @@ def hello():
         count = r.incr('visits')
     except redis.ConnectionError:
         count = "Sorry, Database is offline!"
-    return f"Hello from Python 3-Tier App! 🚀 Total Visits: {count}\n"
+    return f"Hello from Python 3-Tier Application! 🚀 Total Visits: {count}\n"
 
 
 if __name__ == '__main__':
