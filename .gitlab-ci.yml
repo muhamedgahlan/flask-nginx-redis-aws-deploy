@@ -54,7 +54,7 @@ push_images:
 
     
 
-deploy_to_EC2:
+deploy_EC2:
   stage: deploy
   image: alpine:latest 
   before_script:
@@ -64,8 +64,9 @@ deploy_to_EC2:
     - ssh-add "$my_key"  
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan -H "$IP" >> ~/.ssh/~/.ssh/known_hosts
+    - ssh-keyscan -H "$IP" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh $EC2_USER@$IP "cd /home/ec2-user/3-tier-docker-application" && docker compose pull && docker compose up -d"
+    - ssh $EC2_USER@$IP "cd /home/ec2-user/3-tier-docker-application  && docker compose pull && docker compose up -d"
     
  
