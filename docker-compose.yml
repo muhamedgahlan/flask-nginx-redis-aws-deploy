@@ -16,6 +16,7 @@ services:
 
   python_app: 
     build: ./app
+    image: mohamed7444/flask
     container_name: web_container
     networks:
       - app-net
