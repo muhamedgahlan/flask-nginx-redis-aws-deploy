@@ -26,7 +26,6 @@ def hello():
         </div>
         """
 
-    # تصميم HTML شيك وModern جداً
     html_template = f"""
     <!DOCTYPE html>
     <html lang="en">
