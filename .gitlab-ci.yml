@@ -8,8 +8,7 @@ variables:
   DOCKER_PASSWORD: "DOCKER_PASSWORD"
   EC2_USER: "user"
   IP: "EC2_IP"
-  ssh_key: "my_key"
-
+ 
  
 before_script:
   - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin  
@@ -61,8 +60,8 @@ deploy_to_EC2:
   before_script:
     - apk add --no-cache openssh-client
     - eval $(ssh-agent -s) 
-    - chmod 400 "$ssh_key"
-    - ssh-add "$ssh_key" 
+    - chmod 400 "$my_key"
+    - ssh-add "$my_key"  
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - ssh-keyscan -H "$IP" >> ~/.ssh/~/.ssh/known_hosts
