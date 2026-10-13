@@ -1,0 +1,61 @@
+stages:
+  - build
+  - push
+  - deploy
+
+variables:
+  DOCKER_USERNAME: "DOCKER_USERNAME"
+  DOCKER_PASSWORD: "DOCKER_PASSWORD"
+
+ 
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin  
+
+build_images:
+  stage: build
+  image: docker:cli 
+  services:
+    - docker:dind 
+  script:
+    - echo "===bulding image using docker compose==="
+    - docker compose build 
+    - echo "===tag nginx images==="
+    - docker tag "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
+    - echo "===tag flask images==="
+    - docker tag "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+    - echo "===saving images to tar archive==="
+    - docker save -o nginx-image.tar "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
+    - docker save -o flask-image.tar "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - nginx-image.tar
+      - flask-image.tar
+
+
+
+
+push_images:
+  stage: push
+  image: docker:cli
+  script:
+    - echo "Pushing images to Docker Hub..."
+    - docker load -i nginx-image.tar
+    - docker load -i flask-image.tar
+    - docker push "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
+    - docker push "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+
+
+    
+
+#deploy_app:
+#  stage: deploy
+#  image: docker/compose:v2.24.0
+#  script:
+#    - echo "Deploying application using Docker Compose..."
+#    - docker compose down
+#    - docker compose pull
+#    - docker compose up -d
+#  environment:
+#    name: production
