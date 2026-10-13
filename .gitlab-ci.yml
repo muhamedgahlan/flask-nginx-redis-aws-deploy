@@ -5,7 +5,7 @@ stages:
 
 variables:
   DOCKER_USERNAME: "DOCKER_USERNAME"
-  DOCKER_PASSWORD: "DOCKER_PASSWORD"
+    : "DOCKER_PASSWORD"
 
  
 before_script:
@@ -20,9 +20,9 @@ build_images:
     - echo "===bulding image using docker compose==="
     - docker compose build 
     - echo "===tag nginx images==="
-    - docker tag "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
+    - docker tag "$DOCKER_USERNAME":$CI_PIPELINE_IID
     - echo "===tag flask images==="
-    - docker tag "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+    - docker tag "$DOCKER_USERNAME":$CI_PIPELINE_IID
     - echo "===saving images to tar archive==="
     - docker save -o nginx-image.tar "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
     - docker save -o flask-image.tar "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
