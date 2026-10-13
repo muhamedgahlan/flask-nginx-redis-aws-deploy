@@ -24,8 +24,8 @@ build_images:
     - echo "===tag flask images==="   
     - docker tag "$DOCKER_USERNAME/flask"  "$DOCKER_USERNAME":$CI_PIPELINE_IID
     - echo "===saving images to tar archive==="
-    - docker save -o nginx-image.tar "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
-    - docker save -o flask-image.tar "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+    - docker save -o nginx-image.tar "$DOCKER_USERNAME":$CI_PIPELINE_IID
+    - docker save -o flask-image.tar "$DOCKER_USERNAME":$CI_PIPELINE_IID
 
   artifacts:
     expire_in: 1 day
@@ -43,8 +43,8 @@ push_images:
     - echo "Pushing images to Docker Hub..."
     - docker load -i nginx-image.tar
     - docker load -i flask-image.tar
-    - docker push "$DOCKER_USERNAME"/nginx:$CI_PIPELINE_IID
-    - docker push "$DOCKER_USERNAME"/flask:$CI_PIPELINE_IID
+    - docker push "$DOCKER_USERNAME":$CI_PIPELINE_IID
+    - docker push "$DOCKER_USERNAME":$CI_PIPELINE_IID
 
 
     
